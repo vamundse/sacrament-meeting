@@ -1,6 +1,5 @@
 import MeetingDetail from "@/components/MeetingDetail";
 import type { SacramentMeeting } from "../../../lib/types.ts"
-import { getApiUrl } from "@/lib/api";
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +11,7 @@ sunday.setDate(today.getDate() - dayOfWeek); // roll back to Sunday
 export default async function CurrentMeetingPage() {
     const date = sunday.toISOString().split("T")[0];
     console.log(date);
-    const response = await fetch(getApiUrl(`/api/meetings?date=${date}`));
+    const response = await fetch(`/api/meetings?date=${date}`);
     const meetings: SacramentMeeting[] = await response.json();
 
     if (!meetings || meetings.length === 0) {

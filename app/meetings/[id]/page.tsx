@@ -1,6 +1,8 @@
 import MeetingDetail from "@/components/MeetingDetail";
 import type { SacramentMeeting } from "../../../lib/types.ts"
 
+export const dynamic = 'force-dynamic';
+
 export default async function MeetingsPageId(
     { params }: { params: Promise <{ id: string }> }
     ) {
@@ -10,7 +12,7 @@ export default async function MeetingsPageId(
 
         try {
             const { id } = await params;
-            const res = await fetch(`http://localhost:3000/api/meetings/${id}`)
+            const res = await fetch(`/api/meetings/${id}`)
 
             if(!res.ok) {
                 error = `Error ${res.status}: Meeting not found`;

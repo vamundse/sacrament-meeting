@@ -2,10 +2,8 @@ import MeetingCard from "@/components/MeetingCard";
 import type { SacramentMeeting } from "../../lib/types.ts"
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
-
 export default async function MeetingsPage() {
-    const res = await fetch("/api/meetings");
+    const res = await fetch("https://sacrament-meeting-2c51uzabo-byu-pathway1.vercel.app/api/meetings");
     const meetings: SacramentMeeting[] = await res.json();
     meetings.sort((a, b) => b.date.localeCompare(a.date));
 

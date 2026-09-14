@@ -1,11 +1,12 @@
 import MeetingCard from "@/components/MeetingCard";
 import type { SacramentMeeting } from "../../lib/types.ts"
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 
 export const dynamic = 'force-dynamic';
 
 export default async function MeetingsPage() {
-    const res = await fetch("/api/meetings");
+    const res = await fetch(getApiUrl("/api/meetings"));
     const meetings: SacramentMeeting[] = await res.json();
     meetings.sort((a, b) => b.date.localeCompare(a.date));
 

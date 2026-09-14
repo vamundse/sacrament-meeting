@@ -3,7 +3,7 @@ import { getMeetingById } from "@/lib/meetings_db";
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string }}
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const { id: idStr } = await params;
     const id = parseInt(idStr, 10);

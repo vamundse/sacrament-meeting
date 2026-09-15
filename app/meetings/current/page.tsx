@@ -1,8 +1,6 @@
 import MeetingDetail from "@/components/MeetingDetail";
 import { getMeetings } from "@/lib/meetings_db";
 
-export const dynamic = 'force-dynamic';
-
 const today = new Date();
 const dayOfWeek = today.getDay(); // 0 (Sun) through 6 (Sat)
 const sunday = new Date(today);

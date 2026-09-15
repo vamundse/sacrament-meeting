@@ -125,3 +125,5 @@ export function getMeetings(date?: string | null) : SacramentMeeting[] {
 export function getMeetingById(id: number) : SacramentMeeting | null {
     return meetings.find(m => m.id === id) ?? null;
 }
+
+export { meetings };

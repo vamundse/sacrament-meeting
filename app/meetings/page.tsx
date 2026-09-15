@@ -1,20 +1,16 @@
 import MeetingCard from "@/components/MeetingCard";
-import type { SacramentMeeting } from "../../lib/types.ts"
 import Link from "next/link";
-import { getApiUrl } from "@/lib/api";
-
-export const dynamic = 'force-dynamic';
+import { getMeetings } from "../../lib/meetings_db";
 
 export default async function MeetingsPage() {
-    const res = await fetch(getApiUrl("/api/meetings"));
-    const meetings: SacramentMeeting[] = await res.json();
-    meetings.sort((a, b) => b.date.localeCompare(a.date));
+    const meetings = getMeetings();
+    const sorted = [...meetings].sort((a, b) => b.date.localeCompare(a.date));
 
     return (
         <div>
             <h1 className="text-2xl font-bold m-4">All meetings</h1>
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
-                {meetings.map(meeting => (
+                {sorted.map(meeting => (
                 <Link key={ meeting.id } href={`/meetings/${meeting.id}`}>
                     <MeetingCard meeting={meeting} />
                 </Link>

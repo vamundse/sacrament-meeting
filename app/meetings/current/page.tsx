@@ -1,6 +1,5 @@
 import MeetingDetail from "@/components/MeetingDetail";
-import type { SacramentMeeting } from "../../../lib/types.ts"
-import { getApiUrl } from "@/lib/api";
+import { getMeetings } from "@/lib/meetings_db";
 
 export const dynamic = 'force-dynamic';
 
@@ -11,13 +10,13 @@ sunday.setDate(today.getDate() - dayOfWeek); // roll back to Sunday
 
 export default async function CurrentMeetingPage() {
     const date = sunday.toISOString().split("T")[0];
-    console.log(date);
-    const response = await fetch(getApiUrl(`/api/meetings?date=${date}`));
-    const meetings: SacramentMeeting[] = await response.json();
+    const meetings = getMeetings();
 
-    if (!meetings || meetings.length === 0) {
-        return <div className="m-12 text-red-400 text-lg font-bold">Error 404: No meetings found</div>;
+    const meeting = meetings.find(meeting => meeting.date === date);
+
+    if (!meeting) {
+        return <div className="m-12 text-red-400 text-lg font-bold">Error 404: No meeting found for the current week</div>;
     }
     
-    return <MeetingDetail meeting={meetings[0]} />;
+    return <MeetingDetail meeting={meeting} />;
 }

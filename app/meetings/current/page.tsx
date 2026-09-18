@@ -26,6 +26,8 @@ export default async function CurrentMeetingPage() {
 
     const meeting: SacramentMeeting | null = meetings.find(meeting => meeting.date === date) ?? null;
 
+    if (meeting) { redirect(`/meetings/${meeting.id}`); }
+
     if (!meeting) {
         redirect("/meetings");
     }

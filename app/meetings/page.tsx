@@ -1,6 +1,5 @@
 import MeetingCard from "@/components/MeetingCard";
 import Link from "next/link";
-import { getMeetings } from "../../lib/meetings_db";
 import type { SacramentMeeting } from "@/lib/types";
 
 async function getMeetingData() {

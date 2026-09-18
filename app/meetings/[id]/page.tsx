@@ -2,7 +2,7 @@ import MeetingDetail from "@/components/MeetingDetail";
 import type { SacramentMeeting } from "@/lib/types";
 
 async function getMeetingData(id: string) {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.API_URL;
     await new Promise(resolve => setTimeout(resolve, 500));
     const res = await fetch(`${apiUrl}/api/meetings/${id}`);
     const meeting: SacramentMeeting = await res.json();

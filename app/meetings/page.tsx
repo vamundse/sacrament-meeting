@@ -4,7 +4,7 @@ import { getMeetings } from "../../lib/meetings_db";
 import type { SacramentMeeting } from "@/lib/types";
 
 async function getMeetingData() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.API_URL;
     await new Promise(resolve => setTimeout(resolve, 500));
     const res = await fetch(`${apiUrl}/api/meetings`);
     const meetings: SacramentMeeting[] = await res.json();

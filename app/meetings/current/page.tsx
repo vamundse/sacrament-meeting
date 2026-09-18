@@ -8,7 +8,7 @@ const sunday = new Date(today);
 sunday.setDate(today.getDate() - dayOfWeek);
 
 async function getMeetingData() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = process.env.API_URL;
     await new Promise(resolve => setTimeout(resolve, 500));
     const res = await fetch(`${apiUrl}/api/meetings`);
     const meetings: SacramentMeeting[] = await res.json();

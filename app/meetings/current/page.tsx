@@ -31,6 +31,4 @@ export default async function CurrentMeetingPage() {
     if (!meeting) {
         redirect("/meetings");
     }
-    
-    return <MeetingDetail meeting={meeting} />;
 }

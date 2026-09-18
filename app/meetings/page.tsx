@@ -1,9 +1,17 @@
 import MeetingCard from "@/components/MeetingCard";
 import Link from "next/link";
 import { getMeetings } from "../../lib/meetings_db";
+import type { SacramentMeeting } from "@/lib/types";
 
-export default async function MeetingsPage() {
-    const meetings = getMeetings();
+async function getMeetingData() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const res = await fetch(`${apiUrl}/api/meetings`);
+    const meetings: SacramentMeeting[] = await res.json();
+    return meetings;
+}
+
+export default async function MeetingsPage() {    
+    const meetings = await getMeetingData();
     const sorted = [...meetings].sort((a, b) => b.date.localeCompare(a.date));
 
     return (

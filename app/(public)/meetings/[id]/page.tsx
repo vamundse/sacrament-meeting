@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import MeetingDetail from "@/components/MeetingDetail";
 import type { SacramentMeeting } from "@/lib/types";
 

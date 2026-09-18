@@ -1,10 +1,22 @@
+export const dynamic = 'force-dynamic';
+
 import MeetingCard from "@/components/MeetingCard";
 import Link from "next/link";
 import type { SacramentMeeting } from "@/lib/types";
 
 async function getMeetingData() {
     const apiUrl = process.env.API_URL;
+
+    if (!apiUrl) {
+        throw new Error('API_URL environment variable is not set');
+    }
+
     const res = await fetch(`${apiUrl}/api/meetings`);
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch meetings: ${res.status} ${res.statusText}`);
+    }
+
     const meetings: SacramentMeeting[] = await res.json();
     return meetings;
 }

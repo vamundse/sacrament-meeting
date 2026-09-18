@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import MeetingDetail from "@/components/MeetingDetail";
 import { redirect } from "next/navigation";
 import type { SacramentMeeting } from "@/lib/types";

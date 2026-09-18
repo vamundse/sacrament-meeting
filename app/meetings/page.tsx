@@ -4,13 +4,13 @@ import type { SacramentMeeting } from "@/lib/types";
 
 async function getMeetingData() {
     const apiUrl = process.env.API_URL;
-    await new Promise(resolve => setTimeout(resolve, 500));
     const res = await fetch(`${apiUrl}/api/meetings`);
     const meetings: SacramentMeeting[] = await res.json();
     return meetings;
 }
 
-export default async function MeetingsPage() {    
+export default async function MeetingsPage() {  
+    await new Promise(resolve => setTimeout(resolve, 500));  
     const meetings = await getMeetingData();
     const sorted = [...meetings].sort((a, b) => b.date.localeCompare(a.date));
 

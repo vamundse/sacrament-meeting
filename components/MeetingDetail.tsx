@@ -38,17 +38,19 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
                 <p><b>Hymn {meeting.sacramentHymn.number}:</b> <em>{meeting.sacramentHymn.title}</em></p>
             </div>
 
-            <div className="mb-6">
-                <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Speakers & Music</h3>
-                <div className="ml-4 space-y-2">
-                    {meeting.speakers.map((speaker, i) => (
-                        <p key={i}>
-                            <b>{speaker.name}</b> <span className="dark:text-gray-300">({speaker.type})</span>
-                            {speaker.topic && <span className="dark:text-yellow-200"> — {speaker.topic}</span>}
-                        </p>
-                    ))}
+            {meeting.speakers.length > 0 && (
+                <div className="mb-6">
+                    <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Speakers & Music</h3>
+                    <div className="ml-4 space-y-2">
+                        {meeting.speakers.map((speaker, i) => (
+                            <p key={i}>
+                                <b>{speaker.name}</b> <span className="dark:text-gray-300">({speaker.type})</span>
+                                {speaker.topic && <span className="dark:text-yellow-200"> — {speaker.topic}</span>}
+                            </p>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className="mb-6">
                 <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Closing</h3>

@@ -2,15 +2,20 @@ import { NextResponse, NextRequest } from "next/server";
 import { getMeetings } from "@/lib/meetings_db";
 
 export async function GET(request: NextRequest) {
-    const query = new URL(request.url).searchParams.get('q') ?? '';
-    const meetings = await getMeetings(query);
+    try {
+        const query = new URL(request.url).searchParams.get('query') ?? '';
+        const meetings = await getMeetings(query);
 
-    if(!meetings) {
+        if (meetings.length === 0) {
+            return NextResponse.json([]);
+        }
+
+        return NextResponse.json(meetings);
+        
+    } catch (error) {
         return NextResponse.json(
-            { error: "404: No meetings found" },
-            { status: 404 }
-        )
+            { error: error instanceof Error ? error.message : 'Unknown error' },
+            { status: 500 }
+        );
     }
-
-    return NextResponse.json(meetings);
 }

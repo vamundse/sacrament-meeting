@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-import MeetingDetail from "@/components/MeetingDetail";
 import { redirect } from "next/navigation";
 import type { SacramentMeeting } from "@/lib/types";
 
@@ -11,7 +10,6 @@ sunday.setDate(today.getDate() - dayOfWeek);
 
 async function getMeetingData() {
     const apiUrl = process.env.API_URL;
-    await new Promise(resolve => setTimeout(resolve, 500));
     const res = await fetch(`${apiUrl}/api/meetings`);
     const meetings: SacramentMeeting[] = await res.json();
     return meetings;

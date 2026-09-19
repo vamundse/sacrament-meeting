@@ -17,13 +17,14 @@ export async function getMeetings(
             id,
             to_char(date, 'YYYY-MM-DD') AS "date",
             meeting_type AS "meetingType",
-            presiding, conducting, announcements,
+            presiding, conducting,
+            announcements AS "announcements",
             opening_hymn AS "openingHymn",
             opening_prayer AS "openingPrayer",
             ward_business AS "wardBusiness",
             stake_business AS "stakeBusiness",
             sacrament_hymn AS "sacramentHymn",
-            speakers,
+            speakers AS "speakers",
             closing_hymn AS "closingHymn",
             closing_prayer AS "closingPrayer"
         FROM meetings
@@ -31,7 +32,7 @@ export async function getMeetings(
             presiding ILIKE ${searchTerm}
             OR conducting ILIKE ${searchTerm}
             OR meeting_type ILIKE ${searchTerm}
-            OR speakers ILIKE ${searchTerm}
+            OR speakers::text ILIKE ${searchTerm}
         ORDER BY date DESC
         LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -48,7 +49,7 @@ export async function getMeetingsTotalPages(
             presiding ILIKE ${searchTerm}
             OR conducting ILIKE ${searchTerm}
             OR meeting_type ILIKE ${searchTerm}
-            OR speakers ILIKE ${searchTerm}
+            OR speakers::text ILIKE ${searchTerm}
             `;
     return Math.ceil(Number(rows[0].count) / ITEMS_PER_PAGE);
 }
@@ -61,13 +62,14 @@ export async function getMeetingById(
             id,
             to_char(date, 'YYYY-MM-DD') AS "date",
             meeting_type AS "meetingType",
-            presiding, conducting, announcements,
+            presiding, conducting,
+            announcements AS "announcements",
             opening_hymn AS "openingHymn",
             opening_prayer AS "openingPrayer",
             ward_business AS "wardBusiness",
             stake_business AS "stakeBusiness",
             sacrament_hymn AS "sacramentHymn",
-            speakers,
+            speakers AS "speakers",
             closing_hymn AS "closingHymn",
             closing_prayer AS "closingPrayer"
         FROM meetings WHERE id = ${id}

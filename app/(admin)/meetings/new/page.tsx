@@ -1,9 +1,13 @@
 export const dynamic = 'force-dynamic';
+import { createMeetingAction } from '@/lib/actions';
 
 export default function NewMeetingPage() {
   return (
     <div>
-      <h1>Create Meeting - Coming in week 04</h1>
+      <form action={createMeetingAction}>
+        
+        <button type="submit">Create Meeting</button>
+      </form>
     </div>
   )
 }

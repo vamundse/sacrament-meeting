@@ -1,7 +1,8 @@
 'use client';
 
-import { createMeetingAction, type State } from '@/lib/actions';
+import { updateMeetingAction, type State } from '@/lib/actions';
 import { RepeatebleField, SpeakersField } from '@/components/RepeatableField';
+import type { SacramentMeeting } from '@/lib/types';
 import { useActionState } from 'react';
 
 const initialState: State = { message: null, errors: {} };
@@ -10,13 +11,14 @@ const labelClass = "text-sm font-bold text-blue-800 dark:text-blue-300";
 const inputClass =
   "rounded-md border-2 border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200 dark:bg-mist-800 dark:border-mist-600 dark:text-gray-100";
 
-export default function NewMeetingForm() {
 
-  const [state, formAction, isPending] = useActionState(createMeetingAction, initialState);
+export default function EditMeetingForm({ meeting }: { meeting: SacramentMeeting }) {
+  const updateMeetingActionWithId = updateMeetingAction.bind(null, meeting.id);
+  const [state, formAction, isPending] = useActionState(updateMeetingActionWithId, initialState);
 
   return (
     <div className="max-w-2xl mx-auto p-4 m-4 rounded-lg shadow-md bg-gradient-to-b from-white to-mist-100 dark:from-mist-800 dark:to-mist-900">
-      <h1 className="text-lg font-bold mb-4 capitalize">New Meeting</h1>
+      <h1 className="text-lg font-bold mb-4 capitalize">Edit Meeting</h1>
       <form
         className="flex flex-col gap-4"
         action={formAction}>
@@ -28,6 +30,7 @@ export default function NewMeetingForm() {
             name="date"
             required
             aria-describedby="date-error"
+            defaultValue={meeting.date}
           />
           <div id="date-error" aria-live="polite" aria-atomic="true">
           {state.errors?.date?.map((error) => (
@@ -65,6 +68,7 @@ export default function NewMeetingForm() {
             id="presiding"
             name="presiding"
             aria-describedby="presiding-error"
+            defaultValue={meeting.presiding}
           />
           <div id="presiding-error" aria-live="polite" aria-atomic="true">
           {state.errors?.presiding?.map((error) => (
@@ -81,6 +85,7 @@ export default function NewMeetingForm() {
             id="conducting"
             name="conducting"
             aria-describedby="conducting-error"
+            defaultValue={meeting.conducting}
           />
           <div id="conducting-error" aria-live="polite" aria-atomic="true">
           {state.errors?.conducting?.map((error) => (
@@ -90,7 +95,7 @@ export default function NewMeetingForm() {
           ))}
           </div>
 
-          <RepeatebleField name="announcements" label="Announcements:" />
+          <RepeatebleField name="announcements" label="Announcements:" defaultValues={meeting.announcements?.map(item => item) || []} />
           <div id="announcements-error" aria-live="polite" aria-atomic="true">
           {state.errors?.announcements?.map((error) => (
             <p key={error} className="mt-1 text-sm text-red-600">
@@ -105,6 +110,7 @@ export default function NewMeetingForm() {
                   <label className={labelClass} htmlFor="openingHymnNumber">Number</label>
                   <input
                     className={inputClass + " w-20"}
+                    defaultValue={meeting.openingHymn?.number}
                     type="text"
                     id="openingHymnNumber"
                     name="openingHymnNumber"
@@ -115,6 +121,7 @@ export default function NewMeetingForm() {
                   <label className={labelClass} htmlFor="openingHymnTitle">Title</label>
                   <input
                     className={inputClass}
+                    defaultValue={meeting.openingHymn?.title}
                     type="text"
                     id="openingHymnTitle"
                     name="openingHymnTitle"
@@ -137,6 +144,7 @@ export default function NewMeetingForm() {
             id="openingPrayer"
             name="openingPrayer"
             aria-describedby="openingPrayer-error"
+            defaultValue={meeting.openingPrayer}
           />
           <div id="openingPrayer-error" aria-live="polite" aria-atomic="true">
           {state.errors?.openingPrayer?.map((error) => (
@@ -146,7 +154,7 @@ export default function NewMeetingForm() {
           ))}
           </div>
 
-          <RepeatebleField name="wardBusiness" label="Ward Business:" />
+          <RepeatebleField name="wardBusiness" label="Ward Business:" defaultValues={meeting.wardBusiness?.map(item => item.description) || []} />
           <div id="wardBusiness-error" aria-live="polite" aria-atomic="true">
           {state.errors?.wardBusiness?.map((error) => (
             <p key={error} className="mt-1 text-sm text-red-600">
@@ -156,7 +164,7 @@ export default function NewMeetingForm() {
           </div>
 
           <label className={labelClass} htmlFor="stakeBusiness">Stake Business:</label>
-          <select className={inputClass} id="stakeBusiness" name="stakeBusiness" >
+          <select className={inputClass} id="stakeBusiness" name="stakeBusiness" defaultValue={meeting.stakeBusiness? 'yes' : 'no'}>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
@@ -178,6 +186,7 @@ export default function NewMeetingForm() {
                     id="sacramentHymnNumber"
                     name="sacramentHymnNumber"
                     aria-describedby="sacramentHymnNumber-error"
+                    defaultValue={meeting.sacramentHymn?.number}
                   />
               </div>
               <div className="flex flex-col gap-1">
@@ -188,6 +197,7 @@ export default function NewMeetingForm() {
                     id="sacramentHymnTitle"
                     name="sacramentHymnTitle"
                     aria-describedby="sacramentHymnTitle-error"
+                    defaultValue={meeting.sacramentHymn?.title}
                   />
               </div>
           </div>
@@ -199,7 +209,7 @@ export default function NewMeetingForm() {
           ))}
           </div>
 
-          <SpeakersField />
+          <SpeakersField defaultSpeakers={meeting.speakers} />
           <div id="speakers-error" aria-live="polite" aria-atomic="true">
           {state.errors?.speakers?.map((error) => (
             <p key={error} className="mt-1 text-sm text-red-600">
@@ -218,6 +228,7 @@ export default function NewMeetingForm() {
                     id="closingHymnNumber"
                     name="closingHymnNumber"
                     aria-describedby="closingHymnNumber-error"
+                    defaultValue={meeting.closingHymn?.number}
                   />
               </div>
               <div className="flex flex-col gap-1">
@@ -228,6 +239,7 @@ export default function NewMeetingForm() {
                     id="closingHymnTitle"
                     name="closingHymnTitle"
                     aria-describedby="closingHymnTitle-error"
+                    defaultValue={meeting.closingHymn?.title}
                   />
               </div>
           </div>
@@ -246,6 +258,7 @@ export default function NewMeetingForm() {
             id="closingPrayer"
             name="closingPrayer"
             aria-describedby="closingPrayer-error"
+            defaultValue={meeting.closingPrayer}
           />
           <div id="closingPrayer-error" aria-live="polite" aria-atomic="true">
           {state.errors?.closingPrayer?.map((error) => (
@@ -260,9 +273,9 @@ export default function NewMeetingForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-2 px-4 py-2 bg-sky-900 text-white rounded hover:bg-blue-700 transition-all hover:cursor-pointer"
+          className="mt-2 px-4 py-2 bg-sky-900 text-white rounded hover:bg-sky-700 transition-all hover:cursor-pointer"
         >
-          {isPending ? 'Creating...' : 'Create Meeting'}
+          {isPending ? 'Updating...' : 'Update Meeting'}
         </button>
       </form>
     </div>

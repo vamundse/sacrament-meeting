@@ -1,9 +1,14 @@
-export const dynamic = 'force-dynamic';
+import { getMeetingById } from '@/lib/meetings_db';
+import EditMeetingForm from './editForm';
 
-export default function EditMeetingPage() {
-    return (
-        <div>
-            <h1>Edit Meeting - Is coming in week 04</h1>
-        </div>
-    );
+export default async function EditMeetingPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const meetingId = Number(id);
+  const meeting = await getMeetingById(meetingId);
+
+  if (!meeting) {
+    return <p>Meeting not found.</p>;
+  }
+
+  return <EditMeetingForm meeting={meeting} />;
 }

@@ -102,13 +102,13 @@ export async function createMeeting(
         ${data.presiding},
         ${data.conducting},
         ${data.announcements},
-        ${data.openingHymn},
+        ${JSON.stringify(data.openingHymn)},
         ${data.openingPrayer},
-        ${data.wardBusiness},
+        ${JSON.stringify(data.wardBusiness)},
         ${data.stakeBusiness},
-        ${data.sacramentHymn},
-        ${data.speakers},
-        ${data.closingHymn},
+        ${JSON.stringify(data.sacramentHymn)},
+        ${JSON.stringify(data.speakers)},
+        ${JSON.stringify(data.closingHymn)},
         ${data.closingPrayer}
     )
     RETURNING
@@ -142,13 +142,13 @@ export async function updateMeeting(
         presiding = ${updates.presiding},
         conducting = ${updates.conducting},
         announcements = ${updates.announcements},
-        opening_hymn = ${updates.openingHymn},
+        opening_hymn = ${JSON.stringify(updates.openingHymn)},
         opening_prayer = ${updates.openingPrayer},
-        ward_business = ${updates.wardBusiness},
+        ward_business = ${JSON.stringify(updates.wardBusiness)},
         stake_business = ${updates.stakeBusiness},
-        sacrament_hymn = ${updates.sacramentHymn},
-        speakers = ${updates.speakers},
-        closing_hymn = ${updates.closingHymn},
+        sacrament_hymn = ${JSON.stringify(updates.sacramentHymn)},
+        speakers = ${JSON.stringify(updates.speakers)},
+        closing_hymn = ${JSON.stringify(updates.closingHymn)},
         closing_prayer = ${updates.closingPrayer}
     WHERE id = ${id}
     RETURNING

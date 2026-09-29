@@ -1,4 +1,6 @@
 import type { SacramentMeeting } from "../lib/types";
+import Link from "next/link";
+import { deleteMeetingAction } from "@/lib/actions";
 
 export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }) {
     return (
@@ -14,11 +16,15 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
 
             <div className="mb-6">
                 <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Opening</h3>
-                <p><b>Hymn {meeting.openingHymn.number}:</b> <em>{meeting.openingHymn.title}</em></p>
-                <p><b>Prayer:</b> {meeting.openingPrayer}</p>
+                {meeting.openingHymn && (
+                    <p><b>Hymn {meeting.openingHymn.number}:</b> <em>{meeting.openingHymn.title}</em></p>
+                )}
+                {meeting.openingPrayer && (
+                    <p><b>Prayer:</b> {meeting.openingPrayer}</p>
+                )}
             </div>
 
-            {meeting.wardBusiness.length > 0 && (
+            {meeting.wardBusiness && meeting.wardBusiness.length > 0 && (
                 <div className="mb-6">
                     <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Ward Business</h3>
                     {meeting.wardBusiness.map((item, i) => (
@@ -35,10 +41,12 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
 
             <div className="mb-6">
                 <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Sacrament</h3>
-                <p><b>Hymn {meeting.sacramentHymn.number}:</b> <em>{meeting.sacramentHymn.title}</em></p>
+                {meeting.sacramentHymn && (
+                    <p><b>Hymn {meeting.sacramentHymn.number}:</b> <em>{meeting.sacramentHymn.title}</em></p>
+                )}  
             </div>
 
-            {meeting.speakers.length > 0 && (
+            {meeting.speakers && meeting.speakers.length > 0 && (
                 <div className="mb-6">
                     <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Speakers & Music</h3>
                     <div className="ml-4 space-y-2">
@@ -54,8 +62,12 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
 
             <div className="mb-6">
                 <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-300">Closing</h3>
-                <p><b>Hymn {meeting.closingHymn.number}:</b> <em>{meeting.closingHymn.title}</em></p>
-                <p><b>Prayer:</b> {meeting.closingPrayer}</p>
+                {meeting.closingHymn && (
+                    <p><b>Hymn {meeting.closingHymn.number}:</b> <em>{meeting.closingHymn.title}</em></p>
+                )}
+                {meeting.closingPrayer && (
+                    <p><b>Prayer:</b> {meeting.closingPrayer}</p>
+                )}  
             </div>
 
             {meeting.announcements && meeting.announcements.length > 0 && (
@@ -68,6 +80,29 @@ export default function MeetingDetail({ meeting }: { meeting: SacramentMeeting }
                     </div>
                 </div>
             )}
+            <div className="flex justify-end">
+                    <form
+                        className="mt-4 flex justify-end"
+                    >
+                    <Link href={`/meetings/${meeting.id}/edit`}>
+                        <button
+                            className="ml-4 px-3 py-1 bg-sky-900 text-white rounded hover:bg-sky-700 transition-all hover:cursor-pointer"
+                        >
+                            Update Meeting
+                        </button>
+                    </Link>
+                    </form>
+                    <form
+                        className="mt-4 flex justify-end"
+                        action={deleteMeetingAction.bind(null, meeting.id)}
+                    >
+                    <button
+                        className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-all hover:cursor-pointer"
+                    >
+                        Delete Meeting
+                    </button>
+                    </form>
+                </div>
         </div>
     )
 }

@@ -1,0 +1,14 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Odense Menigheds Sunday Meetings',
+  description: 'Details for Odense Menigheds Sunday Meetings'
+};
+
+export default function MeetingsLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <div>
+            {children}
+        </div>
+    );
+}

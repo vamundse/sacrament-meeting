@@ -2,7 +2,19 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Before starting, configure `DATABASE_URL` and `AUTH_SECRET` in `.env.local`.
+Generate an authentication secret locally:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"
+```
+
+Save the generated value as `AUTH_SECRET`. Do not commit environment files or
+share the secret. Auth.js reads this variable automatically. Configure a separate,
+stable secret in your deployment environment, and restart the development server
+after changing environment variables.
+
+Then, run the development server:
 
 ```bash
 npm run dev

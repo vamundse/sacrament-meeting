@@ -7,6 +7,16 @@ import {
     updateMeeting,
     deleteMeeting } from './meetings_db';
 import { z } from 'zod';
+import { signIn, signOut, auth } from '@/auth';
+import {AuthError} from 'next-auth';
+
+async function requireAuthenticatedUser() {
+    const session = await auth();
+    if (!session?.user) {
+        redirect('/login');
+    }
+    return session.user;
+}
 
 const MeetingTypes = z.enum(["testimony", "regular", "stake", "general"]);
 
@@ -62,6 +72,8 @@ export type State = {
 };
 
 export async function createMeetingAction(prevState: State, formData: FormData): Promise<State> {
+    await requireAuthenticatedUser();
+
     const rawData = {
         date: formData.get('date'),
         meetingType: formData.get('meetingType'),
@@ -116,6 +128,8 @@ if (!parsed.success) {
 }
 
 export async function updateMeetingAction(id: number, prevState: State, formData: FormData): Promise<State> {
+    await requireAuthenticatedUser();
+    
     const rawData = {
         date: formData.get('date'),
         meetingType: formData.get('meetingType'),
@@ -170,6 +184,8 @@ export async function updateMeetingAction(id: number, prevState: State, formData
 }
 
 export async function deleteMeetingAction(id: number, formData: FormData): Promise<void> {
+    await requireAuthenticatedUser();
+    
     try {
         await deleteMeeting(id);
         revalidatePath(`/meetings`);
@@ -179,4 +195,31 @@ export async function deleteMeetingAction(id: number, formData: FormData): Promi
     }
     revalidatePath(`/meetings`);
     redirect(`/meetings`);
+}
+
+export async function signOutAction(): Promise<void> {
+    await signOut();
+}
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+    try {
+        await signIn('credentials', {
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
+            redirect: false,
+        });
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return 'invalid email or password';
+                default:
+                    return 'Something went wrong';
+            }
+        }
+        throw error;
+    }
 }

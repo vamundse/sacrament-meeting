@@ -1,3 +1,5 @@
+"use client";
+
 import type { SacramentMeeting } from "../lib/types";
 import Link from "next/link";
 import { deleteMeetingAction } from "@/lib/actions";
@@ -52,5 +54,6 @@ export default function MeetingCard({ meeting }: { meeting: SacramentMeeting }) 
                     </form>
                 </div>
             </div>
+            
     )
 }

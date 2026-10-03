@@ -5,6 +5,16 @@ const sql = neon(process.env.DATABASE_URL!);
 
 const ITEMS_PER_PAGE = 5;
 
+export async function getMeetingIdByDate(date: string): Promise<number | null> {
+    const rows = await sql`
+        SELECT id FROM meetings
+        WHERE date = ${date}::date
+        ORDER BY id
+        LIMIT 1
+    `;
+    return rows.length === 0 ? null : rows[0].id;
+}
+
 export async function getMeetings(
     query: string = '',
     currentPage = 1
